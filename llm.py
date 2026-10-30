@@ -8,20 +8,26 @@ load_dotenv()
 client = OpenAI()
 
 
-def ask(prompt: str) -> str:
+def ask(
+    prompt: str,
+    system: str = "You are a helpful and concise AI assistant.",
+    max_tokens: int = 150,
+    temperature: float = 1
+) -> str:
+
     response = client.chat.completions.create(
         model=os.getenv("MODEL_NAME"),
         messages=[
             {
                 "role": "system",
-                "content": "You are a helpful and concise AI assistant."
+                "content": system
             },
             {
                 "role": "user",
                 "content": prompt
             }
         ],
-        max_completion_tokens=150
+        max_completion_tokens=max_tokens
     )
 
     return response.choices[0].message.content or ""
