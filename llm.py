@@ -5,7 +5,10 @@ from openai import OpenAI
 
 load_dotenv()
 
-client = OpenAI()
+client = OpenAI(
+    api_key=os.getenv("OPENAI_API_KEY"),
+    base_url="https://generativelanguage.googleapis.com/v1beta/openai/"
+)
 
 
 def ask(
@@ -27,7 +30,8 @@ def ask(
                 "content": prompt
             }
         ],
-        max_completion_tokens=max_tokens
+        max_tokens=max_tokens,
+        temperature=temperature
     )
 
     return response.choices[0].message.content or ""
